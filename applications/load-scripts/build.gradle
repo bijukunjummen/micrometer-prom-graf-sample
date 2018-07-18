@@ -19,7 +19,7 @@ task gatlingRun(type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath + configurations.testCompile + configurations.compile
 
     main = "io.gatling.app.Gatling"
-    args = ['-s', 'simulations.BootLoadSimulation',
+    args = ['-s', 'simulations.LoadSimulation',
             '-sf', 'test/resources',
             '-df', 'test/resources',
             '-rf', "${buildDir}/reports/gatling"

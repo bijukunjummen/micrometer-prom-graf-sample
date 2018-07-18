@@ -19,7 +19,7 @@ docker-compose up
 
 A helper UI to send sample requests to the app will be available at http://<dockerip>:8080/index.html
 
-Graphana at http://<dockerip>:3000
+Graphana at http://<dockerip>:3000 and login with admin/admin credentials
 and Prometheus at http://<dockerip>:9090
 
 
@@ -53,11 +53,10 @@ curl -X "POST" "http://localhost:8080/messages" \
 }'
 ----
 
-
 = Generating load
 
 A gatling based load can be sent to the app using:  
 [source, bash]
 ----
-./gradlew -p applications/load-scripts  -DTARGET_URL=http://localhost:8080 -DSIM_USERS=50 gatlingRun
+./gradlew -p applications/load-scripts  -DTARGET_URL=http://localhost:8080 gatlingRun
 ----
