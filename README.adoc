@@ -1,0 +1,63 @@
+# A sample demonstrating Micrometer with Prometheus and Grafana
+
+
+= Using Docker
+
+First create the image for the app using: 
+
+[source, bash]
+----
+./gradlew createDockerImage
+----
+
+and then
+
+[source, bash]
+----
+docker-compose up
+----
+
+A helper UI to send sample requests to the app will be available at http://<dockerip>:8080/index.html
+
+Graphana at http://<dockerip>:3000
+and Prometheus at http://<dockerip>:9090
+
+
+= Without Docker
+
+== Sample Service App
+[source, bash]
+----
+./gradlew -p applications/sample-service-app clean bootRun
+----
+
+= Testing
+Assuming that https://httpie.org/[httpie] is installed
+
+[source, bash]
+----
+http POST 'http://localhost:8080/messages' id="1" payload="one"   delay="1000"
+----
+
+OR with CURL
+
+[source, bash]
+----
+curl -X "POST" "http://localhost:8080/messages" \
+     -H "Accept: application/json" \
+     -H "Content-Type: application/json" \
+     -d $'{
+  "id": "1",
+  "payload": "one",
+  "delay": "1000"
+}'
+----
+
+
+= Generating load
+
+A gatling based load can be sent to the app using:  
+[source, bash]
+----
+./gradlew -p applications/load-scripts  -DTARGET_URL=http://localhost:8080 -DSIM_USERS=50 gatlingRun
+----

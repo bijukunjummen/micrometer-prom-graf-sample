@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sample-micrometer-deployment
+  labels:
+    app: sample-micrometer-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-micrometer-app
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: sample-micrometer-app
+        version: v1
+    spec:
+      containers:
+      - name: sample-micrometer-app
+        image: sample-micrometer-app:0.0.1-SNAPSHOT
+        env:
+        - name: VERSION
+          value: "1.0"
+        - name: SERVER_PORT
+          value: "8080"
+        ports:
+        - name: http
+          containerPort: 8080

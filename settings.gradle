@@ -1,0 +1,2 @@
+include 'applications:sample-micrometer-app'
+include 'applications:load-scripts'
