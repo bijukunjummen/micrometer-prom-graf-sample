@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "buildui": "node ./node_modules/@angular/cli/bin/ng build  --output-path ../src/main/resources/static"
+    "buildui": "node ./node_modules/@angular/cli/bin/ng build --prod  --output-path ../src/main/resources/static"
   },
   "private": true,
   "dependencies": {

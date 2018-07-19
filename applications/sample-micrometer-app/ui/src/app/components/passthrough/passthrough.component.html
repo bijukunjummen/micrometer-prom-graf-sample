@@ -5,15 +5,15 @@
 </div>
 <div class="row">
   <div class="col-sm-12">
-    <form [formGroup]="messageModel" (ngSubmit)="sendMessage(messageModel.value)">
+    <form [formGroup]="messageModel" (ngSubmit)="sendMessage()">
 
       <div class="form-group row">
         <label for="payload" class="col-sm-2 col-form-label">Payload</label>
         <div class="col-sm-10">
           <textarea class="form-control" placeholder="Payload" formControlName="payload">
           </textarea>
-          <span [hidden]="!messageModel.hasError('required', 'payload')">Payload is required..</span>
-          <span [hidden]="!messageModel.hasError('minlength', 'payload')">At least 2 characters in length</span>
+          <span [hidden]="!messageModel.hasError('required', ['payload'])">Payload is required..</span>
+          <span [hidden]="!messageModel.hasError('minlength', ['payload'])">At least 2 characters in length</span>
         </div>
       </div>
 
@@ -21,7 +21,7 @@
         <label for="delay" class="col-sm-2 col-form-label">Delay (in ms)</label>
         <div class="col-sm-10">
           <input type="number" class="form-control" placeholder="delay" formControlName="delay" />
-          <span [hidden]="!messageModel.hasError('required', 'delay')">Delay(ms) is required..</span>
+          <span [hidden]="!messageModel.hasError('required', ['delay'])">Delay(ms) is required..</span>
         </div>
       </div>
       <div class="form-check row">

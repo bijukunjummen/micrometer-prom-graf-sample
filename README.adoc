@@ -3,11 +3,11 @@
 
 = Using Docker
 
-First create the image for the app using: 
+First create the image for the app using. This uses the https://github.com/GoogleContainerTools/jib[Jib gradle plugin]: 
 
 [source, bash]
 ----
-./gradlew createDockerImage
+./gradlew jibDockerBuild
 ----
 
 and then
