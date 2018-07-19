@@ -8,7 +8,18 @@ import reactor.util.function.Tuples;
 import java.util.Arrays;
 import java.util.List;
 
-public class AnamolyDetectionAlgoSample {
+import static org.assertj.core.api.Assertions.assertThat;
+
+/**
+ * This is an example of Anomaly detection algorithm based on an assumption of Gaussian distribution of 
+ * 95 percentile data over time. 
+ * 
+ * The algorithm tries to fit a Gaussian distribution on the data, once it determines a mean and variance, 
+ * it uses it to calculate the probability of a new provided percentile value. If it is below a threshold (epsilon)
+ * the algo would mark it as anomalous data.
+ * 
+ */
+public class AnomalyDetectionAlgoSample {
 
     //99 Percentile values for the last 5 mins collected every 15 seconds
     private List<Long> p_99_for_5_mins = Arrays.asList(
@@ -19,7 +30,7 @@ public class AnamolyDetectionAlgoSample {
             6L, 20L, 16L, 5L
     );
 
-    private static final Long EXPECTED_SLA = 15L;
+    private static final Long HIGH_SLA = 25L;
 
     @Test
     public void testAnamolyDetection() {
@@ -27,12 +38,18 @@ public class AnamolyDetectionAlgoSample {
         Tuple2<Double, Double> meanAndVariance = calculateMeanAndVarianceOfData(p_99_for_5_mins);
         System.out.println(meanAndVariance);
 
-        //Tweak Epsilon value below which the 99 percentile would be considered anomalous. Use SLA for service
+        //Tweak Epsilon value below which the 99 percentile would be considered anomalous. Use a HIGH SLA for service
         // as the upper bound
-        Double epsilon = calculateEpsilonUsingExpectedSLA(EXPECTED_SLA, meanAndVariance.getT1(), meanAndVariance.getT2());
+        Double epsilon = calculateEpsilonUsingExpectedSLA(HIGH_SLA, meanAndVariance.getT1(), meanAndVariance.getT2());
 
         System.out.println(epsilon);
-        System.out.println(calculateProbabilityOfLatency(12L, meanAndVariance.getT1(), meanAndVariance.getT2()));
+
+        assertThat(calculateProbabilityOfLatency(12L, meanAndVariance.getT1(), meanAndVariance.getT2()))
+                .isGreaterThan(epsilon);
+        assertThat(calculateProbabilityOfLatency(15L, meanAndVariance.getT1(), meanAndVariance.getT2()))
+                .isGreaterThan(epsilon);
+        assertThat(calculateProbabilityOfLatency(20L, meanAndVariance.getT1(), meanAndVariance.getT2()))
+                .isGreaterThan(epsilon);
     }
 
     private Double calculateEpsilonUsingExpectedSLA(Long expectedSla, Double mean, Double variance) {
