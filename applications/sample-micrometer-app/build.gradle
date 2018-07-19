@@ -92,4 +92,3 @@ jib {
         image = "sample-micrometer-app:0.0.1-SNAPSHOT"
     }
 }
-jibDockerBuild.dependsOn build
