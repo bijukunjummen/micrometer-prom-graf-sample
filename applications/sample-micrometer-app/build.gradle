@@ -62,7 +62,6 @@ dependencies {
     compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
     compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
     runtime("io.micrometer:micrometer-registry-prometheus")
-    testCompile('io.projectreactor:reactor-test')
 
     compile("org.springframework.cloud:spring-cloud-starter-sleuth")
     compile("org.springframework.cloud:spring-cloud-starter-zipkin")
