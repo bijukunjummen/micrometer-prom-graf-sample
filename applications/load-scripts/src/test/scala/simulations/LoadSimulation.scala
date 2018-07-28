@@ -12,11 +12,14 @@ class LoadSimulation extends Simulation {
 
   val baseUrl = System.getProperty("TARGET_URL")
 
+  val hostHeader = System.getProperty("HOST_HEADER", "")
+
   val httpConf = http.baseURL(baseUrl)
 
   private val rnd: Random = new Random()
 
-  val headers = Map("Accept" -> """application/json""")
+  val headers = Map("Accept" -> "application/json", "Content-Type" -> "application/json")
+  val headersWithHost = if (!hostHeader.equals("")) headers + ("Host" -> hostHeader) else headers
 
 
   val randomFeedLowLatency = Iterator.continually(Map("randomId" -> UUID.randomUUID(), "randomDelay" -> (10 + rnd.nextInt(20))))
@@ -27,7 +30,7 @@ class LoadSimulation extends Simulation {
     .exec(repeat(1000) {
       exec(http("messages")
         .post("/messages")
-        .header("Content-Type", "application/json")
+        .headers(headersWithHost)
         .body(StringBody("""{"id": "${randomId}", "payload": "test payload", "delay": ${randomDelay}}""")))
         .pause(100 millis, 200 millis)
     })
@@ -37,7 +40,7 @@ class LoadSimulation extends Simulation {
     .exec(repeat(100) {
       exec(http("messages")
         .post("/messages")
-        .header("Content-Type", "application/json")
+        .headers(headersWithHost)
         .body(StringBody("""{"id": "${randomId}", "payload": "test payload", "delay": ${randomDelay}}""")))
     })
 
