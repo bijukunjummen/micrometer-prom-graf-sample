@@ -1,0 +1,15 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: sample-micrometer-app-service
+  namespace: default
+spec:
+  runLatest:
+    configuration:
+      revisionTemplate:
+        spec:
+          container:
+            image: bijukunjummen/sample-micrometer-app:0.0.1-SNAPSHOT
+            env:
+            - name: TARGET
+              value: "sample-micrometer-app"

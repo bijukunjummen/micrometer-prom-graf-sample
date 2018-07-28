@@ -22,7 +22,7 @@ services:
       - prometheus      
 
   sample-micrometer-app:
-    image: "sample-micrometer-app:0.0.1-SNAPSHOT"
+    image: "bijukunjummen/sample-micrometer-app:0.0.1-SNAPSHOT"
     environment:
       SERVER_PORT: 8080
       SPRING_PROFILES_ACTIVE: docker
