@@ -1,0 +1,11 @@
+apiVersion: build.knative.dev/v1alpha1
+kind: Build
+metadata:
+  name: jib-gradle-build
+spec:
+  source:
+    git:
+      url: https://github.com/bijukunjummen/micrometer-prom-graf-sample
+      revision: master
+  template:
+    name: jib-gradle
