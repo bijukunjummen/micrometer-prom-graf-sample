@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: sample-micrometer-app
-        image: bijukunjummen/sample-micrometer-app:0.0.1-SNAPSHOT
+        image: bijukunjummen/sample-micrometer-app:0.0.3
         env:
         - name: VERSION
           value: "1.0"

@@ -1,39 +1,20 @@
-buildscript {
-    ext {
-        kotlinVersion = '1.2.41'
-        springBootVersion = '2.0.5.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-        jcenter()
-        maven { url "https://repo.spring.io/snapshot" }
-        maven { url "https://repo.spring.io/milestone" }
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-    }
-}
-
 plugins {
-    id 'com.google.cloud.tools.jib' version '0.9.11'
+    id 'com.google.cloud.tools.jib' version '2.4.0'
+    id 'org.springframework.boot' version '2.3.1.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id 'org.jetbrains.kotlin.plugin.spring' version '1.3.72'
 }
 
 ext {
-    springCloudVersion = 'Finchley.SR1'
+    springCloudVersion = 'Hoxton.SR6'
 }
-
-apply plugin: 'kotlin'
-apply plugin: 'kotlin-spring'
-apply plugin: 'java'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
 
 
 group = 'org.bk.samples'
-version = '0.0.2'
-sourceCompatibility = 1.8
+version = '0.0.3'
+sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
@@ -59,15 +40,15 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-webflux')
     compile("com.fasterxml.jackson.module:jackson-module-kotlin")
-    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-    compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+    compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    compile("org.jetbrains.kotlin:kotlin-reflect")
     runtime("io.micrometer:micrometer-registry-prometheus")
 
     compile("org.springframework.cloud:spring-cloud-starter-sleuth")
     compile("org.springframework.cloud:spring-cloud-starter-zipkin")
 
     testCompile('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: "junit", module: "junit"
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testCompile('io.projectreactor:reactor-test')
     testCompile("org.junit.jupiter:junit-jupiter-api")
@@ -92,6 +73,9 @@ dependencyManagement {
 //}
 
 jib {
+    from {
+        image = 'gcr.io/distroless/java:11'
+    }
     to {
         image = "bijukunjummen/sample-micrometer-app:${project.version}"
     }
